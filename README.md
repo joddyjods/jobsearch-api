@@ -4,3 +4,5 @@ API service supporting the jobsearch webapp (https://github.com/joddyjods/jobsea
 # Things to do next
 - [ ] Take a look at postman
 - [ ] Expose an endpoint
+- [ ] Take a look at express
+- [ ] Figure out what limited user management to possibly do?
