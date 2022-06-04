@@ -1,0 +1,5 @@
+[
+    {"id": 1, "source": "website", "fromYou": true, "date": "May 4, 2022", "msg": "Applied at the website", "key":"abc", "opptyId": "1001", "personId": 10001},
+    {"id": 2, "source": "email", "fromYou": false, "date": "May 5, 2022", "msg": "Responded with an email", "key":"123", "opptyId": "1001", "personId": 10002},
+    {"id": 3, "source": "message", "fromYou": true, "date": "May 6, 2022", "msg": "Provided times for an interview.  I told them that I didnt really care when the times were and gave them lots of times and then even more times, and then some other things happened", "key":"asdf", "opptyId": "1003", "personId": 10002}
+]
