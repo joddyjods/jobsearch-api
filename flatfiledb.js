@@ -20,7 +20,7 @@ async function writeFile( fileName, jsonObject ) {
             fs.mkdirSync( dataFolder );
         }
 
-        fs.writeFile( dataFolder + fileName, JSON.stringify( jsonObject), err => {
+        fs.writeFile( dataFolder + fileName, JSON.stringify( jsonObject, null, 2), err => {
             if (err) {
               console.error(err);
             } } );
@@ -59,6 +59,18 @@ module.exports = {
 
     getAllCompanies : function() {
         return readFile( companiesFile );
+    },
+
+    deleteRecord : function( objectType, idToDelete ) {
+
+        const dataTable = readFile( objectType );
+        for ( var i = dataTable.length-1; i >=0; --i ) {
+            if ( dataTable[i].id == idToDelete ) {
+                dataTable.splice( i, 1 );
+            }
+        }
+
+        writeFile( objectType, dataTable );
     },
 
     /**

@@ -1,1 +1,46 @@
-[{"id":1,"source":"website","fromYou":true,"date":"May 4, 2022","msg":"Applied at the website","key":"abc","opptyId":"1001","personId":10001},{"id":2,"source":"email","fromYou":false,"date":"May 5, 2022","msg":"Responded with an email","key":"123","opptyId":"1001","personId":10002},{"id":3,"source":"message","fromYou":true,"date":"May 6, 2022","msg":"Provided times for an interview.  I told them that I didnt really care when the times were and gave them lots of times and then even more times, and then some other things happened","key":"asdf","opptyId":"1003","personId":10002},{"source":"message","fromYou":true,"date":"2022-06-02","msg":"Here's a text buddy","companyId":3,"personId":1654402170380,"opptyId":1654402687193,"companyName":"Target","opptyName":"Stocker","toFirst":"Cayden","toLast":"Wagner","id":1654402687192},{"source":"linkedin","fromYou":false,"date":"6/4/2022","msg":"Wanted me to be a pool boy","companyId":2,"personId":1654402921685,"opptyId":1004,"companyName":"Kava.io","opptyName":"Pool boy","toFirst":"Roboto","toLast":"","id":1654402921684},{"source":"email","fromYou":true,"date":"2022-06-03","msg":"I just wanted a pizza, really.  But they were unrelenting.","companyId":1654403675714,"personId":1654402921680,"opptyId":1654403675715,"companyName":"Pizza Hut","opptyName":"Sr Manager, Pizza Spinning","toFirst":"Chuck","toLast":"McGill","id":1654403675713},{"source":"email","fromYou":true,"date":"2022-06-04","msg":"I don't want it!  Don't make me take it!","companyId":1654403675714,"personId":1654402921680,"opptyId":1654403675715,"companyName":"Pizza Hut","opptyName":"Sr Manager, Pizza Spinning","toFirst":"Chuck","toLast":"McGill","id":1654403675716}]
+[
+  {
+    "id": 1,
+    "source": "website",
+    "fromYou": true,
+    "date": "May 4, 2022",
+    "msg": "Applied at the website",
+    "key": "abc",
+    "opptyId": 1001,
+    "personId": 10001
+  },
+  {
+    "id": 2,
+    "source": "email",
+    "fromYou": false,
+    "date": "May 5, 2022",
+    "msg": "Responded with an email",
+    "key": "123",
+    "opptyId": 1001,
+    "personId": 10002
+  },
+  {
+    "id": 3,
+    "source": "message",
+    "fromYou": true,
+    "date": "May 6, 2022",
+    "msg": "Provided times for an interview.  I told them that I didnt really care when the times were and gave them lots of times and then even more times, and then some other things happened",
+    "key": "asdf",
+    "opptyId": 1003,
+    "personId": 10002
+  },
+  {
+    "source": "message",
+    "fromYou": false,
+    "date": "2022-06-06",
+    "msg": "I don't even work here but he texted me",
+    "companyId": 1654403675714,
+    "personId": 1654402170380,
+    "opptyId": 1654403675715,
+    "companyName": "Pizza Hut",
+    "opptyName": "Sr Manager, Pizza Spinning",
+    "toFirst": "Cayden",
+    "toLast": "Wagner",
+    "id": 1654448378890
+  }
+]

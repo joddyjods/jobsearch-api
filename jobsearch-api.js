@@ -1,4 +1,5 @@
 var http = require('http');
+const url = require('url');
 const cors = require('cors');
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -58,3 +59,12 @@ app.post( '/interactions', (req, res) => {
   res.send( { status : "Success" } );
 });
 
+app.delete( '/interactions', (req, res) => {
+  const queryObject = url.parse( req.url, true).query;
+  const id = queryObject.id;
+  
+  if ( id != null ) {
+    persistence.deleteRecord( persistence.INTERACTIONS, id );
+  }
+  res.send( { status : "Success" } );
+});
