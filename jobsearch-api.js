@@ -1,46 +1,50 @@
 var http = require('http');
-const fs = require('fs');
 const cors = require('cors');
 const express = require('express')
+const bodyParser = require('body-parser')
+const flatfile = require('./flatfiledb')
 
 const app = express();
 app.use(cors());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 const port = 8080;
 
-const dataFolder = './data/';
-const companiesFile = 'companies.json';
-const peopleFile = 'people.json';
-const opportunitiesFile = 'opportunities.json';
-const interactionsFile = 'interactions.json';
+// Use flat file storage - be able to swap this out for something different
+const persistence = flatfile;
 
 app.get('/', (req, res) => {
   res.send('jobsearch API')
 });
 
 app.get( '/interactions', (req, res) => {
-  res.send( readFile( interactionsFile ) );
+  res.send( persistence.getAllInteractions() );
 });
 
 app.get( '/people', (req, res) => {
-  res.send( readFile( peopleFile ) );
+  res.send( persistence.getAllPeople() );
 });
 
 app.get( '/opportunities', (req, res) => {
-  res.send( readFile( opportunitiesFile ) );
+  res.send( persistence.getAllOpportunities() );
 });
 
 app.get( '/companies', (req, res) => {
-  res.send( readFile( companiesFile ) );
+  res.send( persistence.getAllCompanies() );
 });
 
 app.get( '/all', (req, res) => {
   const all = {
-    companies : readFile( companiesFile ),
-    opportunities : readFile( opportunitiesFile ),
-    people : readFile( peopleFile ),
-    interactions : readFile( interactionsFile )
+    companies : persistence.getAllCompanies(),
+    opportunities : persistence.getAllOpportunities(),
+    people : persistence.getAllPeople(),
+    interactions : persistence.getAllInteractions()
   };
-
 
   res.send( all );
 });
@@ -49,64 +53,8 @@ app.listen(port, () => {
   console.log(`jobsearch-api listening on ${port}`)
 });
 
+app.post( '/interactions', (req, res) => {
+  persistence.addRecord( persistence.INTERACTIONS, req.body );
+  res.send( { status : "Success" } );
+});
 
-
-const nextId = [ Date.now() ];
-
-async function writeFile( fileName, jsonObject ) {
-  try {
-    if (!fs.existsSync( dataFolder )) {
-      fs.mkdirSync( dataFolder );
-    }
-
-    await fs.writeFile( dataFolder + fileName, jsonObject);
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-function readFile( fileName ) {
-  try {
-    const data = fs.readFileSync( dataFolder + fileName, 'utf8');
-    return JSON.parse( data );
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-function nextUniqueId() {
-  nextId[0]++;
-}
-
-/**
- * Add a record to one of the data tables.  Give it a new ID, read in the type of data, add it to the table and persist it.
- * @param {*} fileName The name of the file that contains all of the data
- * @param {*} jsonObject The new object you're going to add
- */
-function addRecord( fileName, jsonObject ) {
-
-  jsonObject.id = nextUniqueId();
-
-  const dataTable = readFile( fileName );
-
-  dataTable.push( jsonObject );
-
-  writeFile( fileName, dataTable );
-}
-
-/**
- * Delete a record with the specified ID from the data table, and persist it.
- * @param {*} fileName 
- * @param {*} id 
- */
-function deleteRecord( fileName, id ) {
-  const dataTable = readFile( fileName );
-
-  for ( var i = dataTable.length - 1; i >= 0; --i ) {
-    if ( dataTable[i].id == id ) {
-      dataTable.splice( i, 1 );
-    }
-  }
-
-  writeFile( fileName, dataTable );
-}
