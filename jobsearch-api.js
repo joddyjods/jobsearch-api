@@ -1,9 +1,11 @@
 var http = require('http');
 const fs = require('fs');
+const cors = require('cors');
 const express = require('express')
 
-const app = express()
-const port = 8080
+const app = express();
+app.use(cors());
+const port = 8080;
 
 const dataFolder = './data/';
 const companiesFile = 'companies.json';
@@ -29,6 +31,18 @@ app.get( '/opportunities', (req, res) => {
 
 app.get( '/companies', (req, res) => {
   res.send( readFile( companiesFile ) );
+});
+
+app.get( '/all', (req, res) => {
+  const all = {
+    companies : readFile( companiesFile ),
+    opportunities : readFile( opportunitiesFile ),
+    people : readFile( peopleFile ),
+    interactions : readFile( interactionsFile )
+  };
+
+
+  res.send( all );
 });
 
 app.listen(port, () => {

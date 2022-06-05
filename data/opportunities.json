@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1001,
+      "company": 1,
+      "jobtitle" : "Sr Software Development Manager, Go",
+      "hiringmanager" : 10001
+    },
+    {
+      "id": 1002,
+      "company": 1,
+      "jobtitle" : "Sr Software Development Manager, Assets",
+      "hiringmanager" : -1
+    },
+    {
+      "id": 1003,
+      "company": 2,
+      "jobtitle" : "Vice President, Engineering",
+      "hiringmanager" : 10002
+    },
+    {
+      "id": 1004,
+      "company": 2,
+      "jobtitle" : "Pool boy",
+      "hiringmanager" : 10002
+    },
+    {
+      "id": 1005,
+      "company": 3,
+      "jobtitle" : "Checker",
+      "hiringmanager" : 10002
+    },
+    {
+      "id": 1006,
+      "company": 3,
+      "jobtitle" : "Stocker",
+      "hiringmanager" : 10002
+    }
+  ]

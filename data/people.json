@@ -1,0 +1,14 @@
+[
+    { 
+      "id" : 10001,
+      "first" : "Charles",
+      "last" : "Jansen",
+      "title" : "Director, Amazon Go"
+    },
+    { 
+      "id" : 10002,
+      "first" : "Jason",
+      "last" : "Ward",
+      "title" : "Senior Vice President, Engineering"
+    }
+  ]
