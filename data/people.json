@@ -1,1 +1,34 @@
-[{"id":10001,"first":"Charles","last":"Jansen","title":"Director, Amazon Go"},{"id":10002,"first":"Jason","last":"Ward","title":"Senior Vice President, Engineering"},{"first":"Cayden","last":"Wagner","id":1654402170380},{"first":"Chuck","last":"McGill","id":1654402921680},{"first":"Roboto","last":"","id":1654402921685}]
+[
+  {
+    "id": 10001,
+    "first": "Charles",
+    "last": "Jansen",
+    "title": "Director, Amazon Go"
+  },
+  {
+    "id": 10002,
+    "first": "Jason",
+    "last": "Ward",
+    "title": "Senior Vice President, Engineering"
+  },
+  {
+    "first": "Cayden",
+    "last": "Wagner",
+    "id": 1654402170380
+  },
+  {
+    "first": "Chuck",
+    "last": "McGill",
+    "id": 1654402921680
+  },
+  {
+    "first": "Roboto",
+    "last": "",
+    "id": 1654402921685
+  },
+  {
+    "first": "Nate",
+    "last": "Forman",
+    "id": 1654454902288
+  }
+]
