@@ -78,7 +78,7 @@ module.exports = {
      * @param {*} objectType The name of the file that contains all of the data
      * @param {*} jsonObject The new object you're going to add
      */
-    addRecord : function( objectType, jsonObject ) {
+    addRecord : function( objectType, jsonObject, req ) {
 
         jsonObject.id = nextUniqueId();
 
@@ -114,7 +114,7 @@ module.exports = {
             console.log( "TODO - gotta handle prepping people" );
         }
     
-        const dataTable = readFile( objectType );
+        const dataTable = readFile( objectType, req );
     
         dataTable.push( jsonObject );
     

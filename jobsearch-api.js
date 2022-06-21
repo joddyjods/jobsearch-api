@@ -1,21 +1,26 @@
 var http = require('http');
+require('dotenv').config({path: __dirname + '/.env'})
 const url = require('url');
 const cors = require('cors');
 const express = require('express')
 const bodyParser = require('body-parser')
 const flatfile = require('./flatfiledb')
+const googledrive = require('./googledrivedb')
 const jose = require('jose');
 
 const {OAuth2Client} = require('google-auth-library');
 const e = require('cors');
 
 // TODO - change the client ID and pass it in with an environment variable
-const CLIENT_ID = "152798730660-61397c89b64orq4a0d0i56p74p0ljks2.apps.googleusercontent.com";
-const client = new OAuth2Client(CLIENT_ID);
+const CLIENT_ID = process.env['gapi_client_id'];
+const CLIENT_SECRET = process.env['gapi_client_secret'];
+const PERSISTENCE = process.env['persistence_type'];
 
 const NO_TOKEN_IN_HEADER = "No JWT token was specified in the request header";
 
 async function verify( req ) {
+
+  const client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET);
 
   let idTokenString = null;
   let idToken = null;
@@ -30,6 +35,8 @@ async function verify( req ) {
           idToken: idToken.id_token,
           audience: CLIENT_ID
       }).catch( error => { throw( error ) } );
+
+    return ticket;
     
     /*const payload = ticket.getPayload();
     const userid = payload['sub'];*/
@@ -52,42 +59,64 @@ app.use(bodyParser.json())
 
 const port = 8080;
 
-// Use flat file storage - be able to swap this out for something different
-const persistence = flatfile;
+// Use flat file storage by default
+let persistence = flatfile;
+if ( PERSISTENCE === 'googledrive' ) { persistence = googledrive };
+if ( PERSISTENCE === 'flatfile' ) { persistence = flatfile };
 
 app.get('/', (req, res) => {
   res.send('jobsearch API')
 });
 
 app.get( '/interactions', (req, res) => {
-  res.send( persistence.getAllInteractions() );
+  res.send( persistence.getAllInteractions( req, res ) );
 });
 
 app.get( '/people', (req, res) => {
-  res.send( persistence.getAllPeople() );
+  res.send( persistence.getAllPeople( req, res ) );
 });
 
 app.get( '/opportunities', (req, res) => {
-  res.send( persistence.getAllOpportunities() );
+  res.send( persistence.getAllOpportunities( req, res ) );
 });
 
 app.get( '/companies', (req, res) => {
-  res.send( persistence.getAllCompanies() );
+  res.send( persistence.getAllCompanies( req, res ) );
 });
 
 app.get( '/all', (req, res) => {
 
   verify( req )
-  .then( () =>
+  .then( ( ticket ) =>
     {
       const all = {
-        companies : persistence.getAllCompanies(),
-        opportunities : persistence.getAllOpportunities(),
-        people : persistence.getAllPeople(),
-        interactions : persistence.getAllInteractions()
+        /*companies : persistence.getAllCompanies( req, res ),
+        opportunities : persistence.getAllOpportunities( req, res ),
+        people : persistence.getAllPeople( req, res ),
+        interactions : persistence.getAllInteractions( req, res )*/
       };
-    
-      res.send( all );
+
+      Promise.all(
+        [persistence.getAllCompanies( req, res ).then( (company) => { all.companies = company }),
+        persistence.getAllOpportunities( req, res ).then( (opportunity) => { all.opportunities = opportunity }),
+        persistence.getAllPeople( req, res ).then( (person) => { all.people = person }),
+        persistence.getAllInteractions( req, res ).then( (interaction) => { all.interactions = interaction })]
+      ).then( () => res.send( all ) );
+
+      /*persistence.getAllCompanies( req, res ).then( (company) => { all.companies = company })
+      .then( () => {
+        persistence.getAllOpportunities( req, res ).then( (opportunity) => { all.opportunities = opportunity })
+        .then( () => {
+          persistence.getAllPeople( req, res ).then( (person) => { all.people = person })
+          .then( () => {
+            persistence.getAllInteractions( req, res ).then( (interaction) => { all.interactions = interaction })
+            .then( () => {
+              res.send( all );
+            } )
+          } )
+        })
+      });*/
+      
     }
   )
   .catch(
@@ -110,7 +139,7 @@ app.listen(port, () => {
 });
 
 app.post( '/interactions', (req, res) => {
-  persistence.addRecord( persistence.INTERACTIONS, req.body );
+  persistence.addRecord( persistence.INTERACTIONS, req.body, req, res );
   res.send( { status : "Success" } );
 });
 
@@ -119,7 +148,7 @@ app.delete( '/interactions', (req, res) => {
   const id = queryObject.id;
   
   if ( id != null ) {
-    persistence.deleteRecord( persistence.INTERACTIONS, id );
+    persistence.deleteRecord( persistence.INTERACTIONS, id, req, res );
   }
   res.send( { status : "Success" } );
 });
